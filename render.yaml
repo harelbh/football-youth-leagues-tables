@@ -1,0 +1,10 @@
+services:
+  - type: cron
+    name: leagues-scraper
+    env: python
+    schedule: "0 3 * * *"
+    buildCommand: pip install selenium
+    startCommand: python render_scraper.py
+    envVars:
+      - key: GITHUB_TOKEN
+        sync: false
