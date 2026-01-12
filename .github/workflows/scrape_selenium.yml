@@ -1,0 +1,43 @@
+name: Scrape League Tables (Selenium)
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # כל יום ב-03:00
+  workflow_dispatch:  # אפשר להריץ ידנית
+
+jobs:
+  scrape-all-leagues:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install selenium
+      
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+      
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+      
+      - name: Run scraper
+        run: |
+          python selenium_scraper.py
+      
+      - name: Commit results
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add leagues_tables.json
+          git diff --staged --quiet || git commit -m "Update league tables $(date +%Y-%m-%d)"
+          git push
