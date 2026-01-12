@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טבלאות ליגות נוער</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            font-size: 1em;
+        }
+
+        .leagues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .league-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .league-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .league-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .league-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .league-info {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .standings-table th {
+            background: #f8f9fa;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.85em;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .standings-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .standings-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .place-col {
+            font-weight: bold;
+            color: #667eea;
+            width: 50px;
+        }
+
+        .team-col {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .place-1 { background: #ffd700 !important; }
+        .place-2 { background: #c0c0c0 !important; }
+        .place-3 { background: #cd7f32 !important; }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .leagues-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .standings-table {
+                font-size: 0.85em;
+            }
+
+            .standings-table th,
+            .standings-table td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 טבלאות ליגות נוער</h1>
+            <div class="league-info">עונת 2025/2026</div>
+        </header>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLeagues">-</div>
+                <div class="stat-label">ליגות</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalTeams">-</div>
+                <div class="stat-label">קבוצות</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filters-row">
+                <button class="filter-btn active" data-filter="all">הכל</button>
+                <button class="filter-btn" data-filter="נשים">נשים</button>
+                <button class="filter-btn" data-filter="נוער">נוער</button>
+                <button class="filter-btn" data-filter="נערים א'">נערים א'</button>
+                <button class="filter-btn" data-filter="נערים ב'">נערים ב'</button>
+                <button class="filter-btn" data-filter="נערים ג'">נערים ג'</button>
+                <button class="filter-btn" data-filter="ילדים א'">ילדים א'</button>
+                <button class="filter-btn" data-filter="ילדים ב'">ילדים ב'</button>
+                <button class="filter-btn" data-filter="ילדים ג'">ילדים ג'</button>
+                <button class="filter-btn" data-filter="טרום ילדים א'">טרום א'</button>
+                <button class="filter-btn" data-filter="טרום ילדים ב'">טרום ב'</button>
+                <button class="filter-btn" data-filter="טרום ילדים ג'">טרום ג'</button>
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 חפש קבוצה או ליגה...">
+            </div>
+        </div>
+
+        <div id="content" class="loading">טוען נתונים...</div>
+    </div>
+
+    <script>
+        const API_URL = 'YOUR_RAILWAY_URL_HERE';  // תחליף את זה ב-URL של Railway
+        let allTables = [];
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        // טען נתונים
+        async function loadTables() {
+            try {
+                const response = await fetch(`${API_URL}/api/tables`);
+                allTables = await response.json();
+                
+                updateStats();
+                displayTables();
+            } catch (error) {
+                console.error('Error loading tables:', error);
+                document.getElementById('content').innerHTML = 
+                    '<div class="error">שגיאה בטעינת הנתונים. אנא נסה שוב מאוחר יותר.</div>';
+            }
+        }
+
+        // עדכן סטטיסטיקות
+        function updateStats() {
+            const totalLeagues = allTables.length;
+            const totalTeams = allTables.reduce((sum, league) => sum + league.teams.length, 0);
+            
+            document.getElementById('totalLeagues').textContent = totalLeagues;
+            document.getElementById('totalTeams').textContent = totalTeams;
+        }
+
+        // הצג טבלאות
+        function displayTables() {
+            let filteredTables = allTables;
+
+            // פילטר לפי קטגוריה
+            if (currentFilter !== 'all') {
+                filteredTables = filteredTables.filter(league => league.ageGroup === currentFilter);
+            }
+
+            // פילטר לפי חיפוש
+            if (searchTerm) {
+                filteredTables = filteredTables.filter(league => {
+                    const leagueMatch = league.leagueName.includes(searchTerm);
+                    const teamMatch = league.teams.some(team => team.teamName.includes(searchTerm));
+                    return leagueMatch || teamMatch;
+                });
+            }
+
+            const container = document.getElementById('content');
+
+            if (filteredTables.length === 0) {
+                container.innerHTML = '<div class="no-results">לא נמצאו תוצאות</div>';
+                return;
+            }
+
+            container.innerHTML = '<div class="leagues-grid">' + 
+                filteredTables.map(league => createLeagueCard(league)).join('') + 
+                '</div>';
+        }
+
+        // צור כרטיס ליגה
+        function createLeagueCard(league) {
+            const highlightedTeams = searchTerm ? 
+                league.teams.filter(team => team.teamName.includes(searchTerm)) : 
+                league.teams;
+
+            const teamsToShow = searchTerm && highlightedTeams.length > 0 ? 
+                highlightedTeams : league.teams;
+
+            return `
+                <div class="league-card">
+                    <div class="league-header">
+                        <div class="league-name">${league.leagueName}</div>
+                        <div class="league-info">${league.ageGroup} • ${league.teams.length} קבוצות</div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="standings-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>קבוצה</th>
+                                    <th>מש׳</th>
+                                    <th>נצ׳</th>
+                                    <th>ת׳</th>
+                                    <th>הפ׳</th>
+                                    <th>שע׳</th>
+                                    <th>נק׳</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${teamsToShow.map(team => `
+                                    <tr class="${team.place <= 3 ? 'place-' + team.place : ''}">
+                                        <td class="place-col">${team.place}</td>
+                                        <td class="team-col">${team.teamName}</td>
+                                        <td>${team.games}</td>
+                                        <td>${team.wins}</td>
+                                        <td>${team.draws}</td>
+                                        <td>${team.losses}</td>
+                                        <td>${team.goals}</td>
+                                        <td><strong>${team.points}</strong></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // פילטרים
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                displayTables();
+            });
+        });
+
+        // חיפוש
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            displayTables();
+        });
+
+        // טען נתונים בטעינה ראשונית
+        loadTables();
+
+        // רענון אוטומטי כל 10 דקות
+        setInterval(loadTables, 600000);
+    </script>
+</body>
+</html>
