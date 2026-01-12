@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טבלאות ליגות נוער - התאחדות לכדורגל</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            flex: 1;
+            min-width: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .tables-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+        }
+
+        .league-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .league-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .league-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .league-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .league-info {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f7fafc;
+            color: #2d3748;
+            font-weight: 600;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .place-col {
+            font-weight: bold;
+            color: #2d3748;
+            width: 50px;
+        }
+
+        .team-col {
+            text-align: right;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .top-1 { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); }
+        .top-2 { background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); }
+        .top-3 { background: linear-gradient(135deg, #cd7f32 0%, #e9b38f 100%); }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .error {
+            background: #fff5f5;
+            color: #c53030;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .last-update {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .tables-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚽ טבלאות דירוג ליגות נוער</h1>
+            <div class="subtitle">עונת 2025/2026 | התאחדות לכדורגל בישראל</div>
+        </div>
+
+        <div class="controls">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="ageFilter">📊 סנן לפי שכבת גיל</label>
+                    <select id="ageFilter">
+                        <option value="">כל השכבות</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="searchBox">🔍 חיפוש ליגה / קבוצה</label>
+                    <input type="text" id="searchBox" placeholder="הקלד שם...">
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalLeagues">-</div>
+                    <div class="stat-label">ליגות</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="totalTeams">-</div>
+                    <div class="stat-label">קבוצות</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="visibleLeagues">-</div>
+                    <div class="stat-label">מוצגות</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tablesContainer" class="tables-container">
+            <div class="loading">⏳ טוען נתונים...</div>
+        </div>
+
+        <div class="last-update" id="lastUpdate"></div>
+    </div>
+
+    <script>
+        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/harelbh/football-youth-leagues-tables/main/leagues_tables.json';
+        
+        let allData = [];
+        let filteredData = [];
+
+        async function loadData() {
+            try {
+                // הוסף timestamp למניעת cache
+                const url = `${GITHUB_RAW_URL}?t=${Date.now()}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                allData = await response.json();
+                
+                if (!Array.isArray(allData) || allData.length === 0) {
+                    throw new Error('אין נתונים זמינים');
+                }
+
+                populateAgeFilter();
+                applyFilters();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('tablesContainer').innerHTML = `
+                    <div class="error">
+                        ❌ שגיאה בטעינת הנתונים<br>
+                        <small>${error.message}</small><br>
+                        <small>נסה לרענן את הדף</small>
+                    </div>
+                `;
+            }
+        }
+
+        function populateAgeFilter() {
+            const ageGroups = [...new Set(allData.map(l => l.ageGroup))].sort();
+            const select = document.getElementById('ageFilter');
+            
+            ageGroups.forEach(group => {
+                const option = document.createElement('option');
+                option.value = group;
+                option.textContent = group;
+                select.appendChild(option);
+            });
+        }
+
+        function applyFilters() {
+            const ageFilter = document.getElementById('ageFilter').value;
+            const searchText = document.getElementById('searchBox').value.toLowerCase();
+
+            filteredData = allData.filter(league => {
+                const matchAge = !ageFilter || league.ageGroup === ageFilter;
+                const matchSearch = !searchText || 
+                    league.leagueName.toLowerCase().includes(searchText) ||
+                    league.teams.some(t => t.teamName.toLowerCase().includes(searchText));
+                
+                return matchAge && matchSearch;
+            });
+
+            renderTables();
+            updateStats();
+        }
+
+        function renderTables() {
+            const container = document.getElementById('tablesContainer');
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = '<div class="loading">😕 לא נמצאו תוצאות</div>';
+                return;
+            }
+
+            container.innerHTML = filteredData.map(league => `
+                <div class="league-card">
+                    <div class="league-header">
+                        <div class="league-name">${league.leagueName}</div>
+                        <div class="league-info">${league.ageGroup} • ${league.teams.length} קבוצות</div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>מיקום</th>
+                                    <th>קבוצה</th>
+                                    <th>משחקים</th>
+                                    <th>נצחונות</th>
+                                    <th>תיקו</th>
+                                    <th>הפסדים</th>
+                                    <th>שערים</th>
+                                    <th>נקודות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${league.teams.map(team => `
+                                    <tr class="${team.place <= 3 ? 'top-' + team.place : ''}">
+                                        <td class="place-col">${team.place}</td>
+                                        <td class="team-col">${team.teamName}</td>
+                                        <td>${team.games}</td>
+                                        <td>${team.wins}</td>
+                                        <td>${team.draws}</td>
+                                        <td>${team.losses}</td>
+                                        <td>${team.goals}</td>
+                                        <td><strong>${team.points}</strong></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            const totalTeams = allData.reduce((sum, l) => sum + l.teams.length, 0);
+            
+            document.getElementById('totalLeagues').textContent = allData.length;
+            document.getElementById('totalTeams').textContent = totalTeams;
+            document.getElementById('visibleLeagues').textContent = filteredData.length;
+
+            // עדכון אחרון
+            if (allData.length > 0 && allData[0].lastUpdate) {
+                const lastUpdate = new Date(allData[0].lastUpdate);
+                document.getElementById('lastUpdate').textContent = 
+                    `עודכן לאחרונה: ${lastUpdate.toLocaleString('he-IL')}`;
+            }
+        }
+
+        // Event listeners
+        document.getElementById('ageFilter').addEventListener('change', applyFilters);
+        document.getElementById('searchBox').addEventListener('input', applyFilters);
+
+        // רענון אוטומטי כל 10 דקות
+        setInterval(loadData, 10 * 60 * 1000);
+
+        // טעינה ראשונית
+        loadData();
+    </script>
+</body>
+</html>
