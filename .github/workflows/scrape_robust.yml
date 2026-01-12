@@ -1,0 +1,342 @@
+name: Scrape League Tables (20 Jobs)
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  group-1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "637,639,741,654,651,641,808,860,823"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-1
+          path: group_result.json
+
+  group-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "809,859,705,815,749,717,900,810,901"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-2
+          path: group_result.json
+
+  group-3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "903,902,101,103,102,105,104,920,787"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-3
+          path: group_result.json
+
+  group-4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "666,110,115,726,121,120,646,755,123"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-4
+          path: group_result.json
+
+  group-5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "122,665,664,773,719,720,135,139,706"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-5
+          path: group_result.json
+
+  group-6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "131,137,130,658,134,824,845,826,736"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-6
+          path: group_result.json
+
+  group-7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "663,758,759,146,816,707,144,871,155"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-7
+          path: group_result.json
+
+  group-8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "734,870,648,865,764,875,876,662,862"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-8
+          path: group_result.json
+
+  group-9:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "152,156,788,150,712,872,863,158,154"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-9
+          path: group_result.json
+
+  group-10:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "861,880,739,748,689,852,868,804,881"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-10
+          path: group_result.json
+
+  group-11:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "882,897,161,165,792,879,160,747,767"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-11
+          path: group_result.json
+
+  group-12:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "878,167,163,877,765,886,887,175,713"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-12
+          path: group_result.json
+
+  group-13:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "769,890,888,770,883,884,794,738,173"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-13
+          path: group_result.json
+
+  group-14:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "793,744,170,172,885,891,174,892,661"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-14
+          path: group_result.json
+
+  group-15:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "780,750,649,908,182,631,737,838,771"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-15
+          path: group_result.json
+
+  group-16:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "819,180,710,183,801,799,840,800,904"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-16
+          path: group_result.json
+
+  group-17:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "660,839,181,806,752,640,732,912,913"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-17
+          path: group_result.json
+
+  group-18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "843,798,659,851,657,844,921,922,842"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-18
+          path: group_result.json
+
+  group-19:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install selenium
+      - uses: browser-actions/setup-chrome@v1
+      - uses: nanasess/setup-chromedriver@v2
+      - run: python robust_scraper.py "186,918,722,795,652,916"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: group-19
+          path: group_result.json
+
+  merge-results:
+    needs: [group-1, group-2, group-3, group-4, group-5, group-6, group-7, group-8, group-9, group-10, group-11, group-12, group-13, group-14, group-15, group-16, group-17, group-18, group-19]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - name: Merge JSONs
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          echo "[" > leagues_tables.json
+          first=true
+          for file in group-*/group_result.json; do
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo "," >> leagues_tables.json
+            fi
+            cat "$file" | jq '.[]' >> leagues_tables.json
+          done
+          echo "]" >> leagues_tables.json
+          echo "📊 Total:" $(cat leagues_tables.json | jq 'length')
+      
+      - name: Commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add leagues_tables.json
+          git diff --staged --quiet || git commit -m "Update tables $(date +%Y-%m-%d)"
+          git push
+
