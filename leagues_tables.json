@@ -1,35 +1,90 @@
 [
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
+  {
+    "leagueId": 637,
+    "leagueName": "ליגת על לנשים",
+    "ageGroup": "נשים",
+    "teams": [
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      },
+      {
+        "place": "",
+        "teamName": "",
+        "games": 0,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "goals": "",
+        "points": 0
+      }
+    ],
+    "lastUpdate": "2026-01-12 19:36:37"
+  }
 ]
